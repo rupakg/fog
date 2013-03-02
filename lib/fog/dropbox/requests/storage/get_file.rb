@@ -3,13 +3,13 @@ module Fog
     class Dropbox
       class Real
 
-        # options - locale
-        def get_account_info(options = {})
+        # options
+        def get_file(filepath, options = {})
           options = options.reject {|key, value| value.nil?}
-          response = api_request(
+          response = content_request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => "account/info",
+            :path     => "files/sandbox/#{filepath}",
             :query    => options
           )
           response
@@ -19,7 +19,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def get_container(options = {})
+        def get_file(filepath, options = {})
         end
 
       end

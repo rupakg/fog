@@ -36,7 +36,7 @@ module Fog::Dropbox
 
     def access_token
       @access_token ||= get_access_token
-      puts "Access Token: #{@access_token.inspect}"
+      #puts "Access Token: #{@access_token.inspect}"
       @access_token
     end
 
@@ -75,7 +75,7 @@ module Fog::Dropbox
 
     def request(params)
       call_url = "#{params[:host]}#{params[:path]}?#{URI.encode(query(params[:query]))}"
-      puts "Call Url: #{call_url} - Header: #{params[:headers]}"
+      #puts "Call Url: #{call_url} - Header: #{params[:headers]}"
 
       access_token.get(call_url, params[:headers])
     end

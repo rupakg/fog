@@ -11,6 +11,7 @@ module Fog
 
       request_path 'fog/dropbox/requests/storage'
       request :get_account_info
+      request :get_file
 
       module Utils
 
@@ -98,7 +99,7 @@ module Fog
 
         def initialize(options={})
           @dropbox_app_key      = options[:dropbox_app_key]
-          @dropbox_access_type  = options[:dropbox_access_type] || "app_folder" # or "dropbox"
+          @dropbox_access_type  = options[:dropbox_access_type] || "sandbox" # or "dropbox"
         end
 
         def data
@@ -116,22 +117,30 @@ module Fog
 
         def initialize(options={})
           # keys and tokens
-          @dropbox_app_key      = options[:dropbox_app_key]
-          @dropbox_app_secret   = options[:dropbox_app_secret]
-          @dropbox_access_type  = options[:dropbox_access_type] ||= "app_folder" # or "dropbox"
-          @dropbox_access_token = options[:dropbox_access_token]
+          @dropbox_app_key          = options[:dropbox_app_key]
+          @dropbox_app_secret       = options[:dropbox_app_secret]
+          @dropbox_access_type      = options[:dropbox_access_type] ||= "sandbox" # or "dropbox"
+          @dropbox_access_token     = options[:dropbox_access_token]
+          @dropbox_api_version      = options[:dropbox_api_version] ||= "1"
           # auth url
-          @dropbox_auth_url     = options[:dropbox_auth_url] ||= "https://www.dropbox.com"
-          #@auth_connection      = Fog::Connection.new(@dropbox_auth_url)
+          @dropbox_auth_url         = options[:dropbox_auth_url] ||= "https://www.dropbox.com"
           # api url
-          @dropbox_api_version  = options[:dropbox_api_version] ||= "1"
-          @dropbox_api_url      = options[:dropbox_api_url] ||= "https://api.dropbox.com/#{@dropbox_api_version}"
+          @dropbox_api_url          = options[:dropbox_api_url] ||= "https://api.dropbox.com/#{@dropbox_api_version}"
+          # api content url
+          @dropbox_api_content_url  = options[:@dropbox_api_content_url] ||= "https://api-content.dropbox.com/#{@dropbox_api_version}"
           #@connection_options   = options[:connection_options]  ||= {}
           #@persistent           = options[:persistent] ||= false
           #@connection           = Fog::Connection.new(@dropbox_api_url, @persistent, @connection_options)
 
           Fog::Dropbox.authenticate(options)
 
+        end
+
+        def api_request(params, parse_json = true, &block)
+          request(params.merge!({:host => @dropbox_api_url}), parse_json = true, &block)
+        end
+        def content_request(params, parse_json = true, &block)
+          request(params.merge!({:host => @dropbox_api_content_url}), parse_json = true, &block)
         end
 
         def request(params, parse_json = true, &block)
@@ -141,8 +150,8 @@ module Fog
               :headers  => {
                 'Content-Type' => 'application/json'
               }.merge!(params[:headers] || {}),
-              :host     => @dropbox_api_url,
-              :path     => "#{@path}/#{params[:path]}",
+              #:host     => @dropbox_api_url,
+              :path     => "#{@path}/#{params[:path]}"
             }))
           #begin
           #  response = @connection.request(params.merge!({
