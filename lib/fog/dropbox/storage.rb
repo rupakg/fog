@@ -177,6 +177,14 @@ module Fog
             end
           end
           response
+          # create a temp JSON object to return the response details
+          { :code => "#{response.code}",
+            :code_type => "#{response.code_type}",
+            :message => "#{response.message}",
+            :content_length => "#{response.content_length}",
+            :content_type => "#{response.content_type}",
+            :body => "#{response.body}"
+          }
         end
 
       end
