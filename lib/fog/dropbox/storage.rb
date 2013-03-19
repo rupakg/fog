@@ -84,11 +84,21 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :acls => {
-                :container => {},
-                :object => {}
-              },
-              :containers => {}
+              :account => {
+                "100" => {
+                  "referral_link" => "https://www.dropbox.com/referrals/xxxxyyyyzzzz",
+                  "display_name"  => "Rupak Ganguly",
+                  "uid" => 100,
+                  "country" => "US",
+                  "quota_info" =>
+                  {
+                    "shared" => 111111111,
+                    "quota" => 2222222222,
+                    "normal" => 3333333333
+                  },
+                  "email" => "my@email.com"
+                }
+              }
             }
             end
         end

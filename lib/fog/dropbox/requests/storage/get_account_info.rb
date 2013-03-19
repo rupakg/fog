@@ -19,7 +19,15 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def get_container(options = {})
+        def get_account_info(options = {})
+          response = Excon::Response.new
+          response.status = 200
+
+          data = data['account']['100']
+          response.body = data
+          response
+
+
         end
 
       end
