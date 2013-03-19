@@ -30,6 +30,8 @@ if Fog.mock?
     :dnsimple_password                => 'dnsimple_password',
     :dnsmadeeasy_api_key              => 'dnsmadeeasy_api_key',
     :dnsmadeeasy_secret_key           => 'dnsmadeeasy_secret_key',
+    :dropbox_app_key                  => 'dropbox_app_key',
+    :dropbox_app_secret               => 'dropbox_app_secret',
     :ecloud_username                  => 'ecloud_username',
     :ecloud_password                  => 'ecloud_password',
     :ecloud_versions_uri              => 'http://ecloud.versions.uri',
