@@ -23,11 +23,9 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          data = data['account']['100']
+          data = self.data[:account]['100']
           response.body = data
           response
-
-
         end
 
       end
