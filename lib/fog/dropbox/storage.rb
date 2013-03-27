@@ -12,6 +12,7 @@ module Fog
       request_path 'fog/dropbox/requests/storage'
       request :get_account_info
       request :get_file
+      request :put_file
 
       module Utils
 
@@ -98,7 +99,8 @@ module Fog
                   },
                   "email" => "my@email.com"
                 }
-              }
+              },
+              :files => {}
             }
             end
         end
@@ -150,6 +152,8 @@ module Fog
           request(params.merge!({:host => @dropbox_api_url}), parse_json = true, &block)
         end
         def content_request(params, parse_json = true, &block)
+          #params.merge!({:host => @dropbox_api_content_url})
+          #puts "content_request params: #{params}"
           request(params.merge!({:host => @dropbox_api_content_url}), parse_json = true, &block)
         end
 

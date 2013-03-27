@@ -77,5 +77,16 @@ module Fog
       end
     end
 
+    class Mock
+      def self.rev
+        Fog::Mock.random_hex(12)
+      end
+
+      def self.revision
+        Fog::Mock.random_numbers(6)
+      end
+
+    end
+
   end
 end
