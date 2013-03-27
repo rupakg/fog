@@ -77,7 +77,20 @@ module Fog::Dropbox
       call_url = "#{params[:host]}#{params[:path]}?#{URI.encode(query(params[:query]))}"
       #puts "Call Url: #{call_url} - Header: #{params[:headers]}"
 
-      access_token.get(call_url, params[:headers])
+      method = params[:method]
+      case method
+      when 'GET'
+        response = access_token.get(call_url, params[:headers])
+      when 'PUT'
+        response = access_token.put(call_url, params[:body], params[:headers])
+      when 'POST'
+        response = access_token.post(call_url, params[:body], params[:headers])
+      when 'DELETE'
+        response = access_token.delete(call_url, params[:headers])
+      else
+        raise ArgumentError, "Unsupported HTTP method: #{method}"
+      end
+      response
     end
 
     def create_signed_request(http_method, path, options = {})
